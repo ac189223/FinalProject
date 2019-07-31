@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.phpTravels.MainPage;
+import pages.phpTravels.PaymentFormPage;
 import pages.phpTravels.SearchResultsPage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -13,6 +14,7 @@ public class FlightBookingTest {
     private static WebDriver driver;
     private MainPage mainPage = new MainPage(driver);
     private SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
+    private PaymentFormPage paymentFormPage = new PaymentFormPage(driver);
     private String departureAirport = "WAW";
     private String arrivalAirport = "JFK";
     private String departureDate = "2019-10-10";
@@ -21,6 +23,20 @@ public class FlightBookingTest {
     private String searchResultsURL = "https://www.phptravels.net/thflights/search/" +
             departureAirport + "/" + arrivalAirport + "/return/" +
             departureDate + "/" + arrivalDate + "/" + numberOfPassengers + "/0/0";
+    private String title;
+    private String name;
+    private String surname;
+    private String email;
+    private String phone;
+    private String birthday;
+    private String idCardNumber;
+    private String idCardExpirationDate;
+    private String Nationality;
+    private String cardType;
+    private String cardNumber;
+    private String cardExpirationMonth;
+    private String cardExpirationYear;
+    private String cvvNumber;
 
     @BeforeClass
     public static void setup() {
@@ -48,6 +64,14 @@ public class FlightBookingTest {
         Assert.assertTrue(searchResultsPage.wait.until(ExpectedConditions.urlToBe("https://www.phptravels.net/thflights/checkout")));
     }
 
+    @Test
+    public void FlightBookingTest_03_shouldFillInPaymentForm() {
+        paymentFormPage.chooseGuestBooking();
+        paymentFormPage.enterTravellerInfo(title, name, surname, email, phone, birthday, idCardNumber, idCardExpirationDate, Nationality);
+        paymentFormPage.enterPaymentInformation(cardType, cardNumber, cardExpirationMonth, cardExpirationYear, cvvNumber);
+        paymentFormPage.confirmBooking();
+        // Assert.assertTrue(paymentFormPage.wait.until(ExpectedConditions.urlToBe("https://www.phptravels.net/thflights/checkout")));
+    }
 
     @AfterClass
     public static void tearDown() throws Exception {
