@@ -15,28 +15,7 @@ public class FlightBookingTest {
     private MainPage mainPage = new MainPage(driver);
     private SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
     private PaymentFormPage paymentFormPage = new PaymentFormPage(driver);
-    private String departureAirport = "WAW";
-    private String arrivalAirport = "JFK";
-    private String departureDate = "2019-10-10";
-    private String arrivalDate = "2019-10-30";
-    private int numberOfPassengers = 1;
-    private String searchResultsURL = "https://www.phptravels.net/thflights/search/" +
-            departureAirport + "/" + arrivalAirport + "/return/" +
-            departureDate + "/" + arrivalDate + "/" + numberOfPassengers + "/0/0";
-    private String title;
-    private String name;
-    private String surname;
-    private String email;
-    private String phone;
-    private String birthday;
-    private String idCardNumber;
-    private String idCardExpirationDate;
-    private String Nationality;
-    private String cardType;
-    private String cardNumber;
-    private String cardExpirationMonth;
-    private String cardExpirationYear;
-    private String cvvNumber;
+    private FlightBookingData data = new FlightBookingData();
 
     @BeforeClass
     public static void setup() {
@@ -53,9 +32,10 @@ public class FlightBookingTest {
         mainPage.wait.until(ExpectedConditions.urlToBe("https://www.phptravels.net/"));
         mainPage.changeToFlightsBooking();
         mainPage.selectRoundTrip();
-        mainPage.enterFlightDetails(departureAirport, arrivalAirport, departureDate, arrivalDate, numberOfPassengers);
+        mainPage.enterFlightDetails(data.getDepartureAirport(), data.getArrivalAirport(),
+                data.getDepartureDate(), data.getArrivalDate(), data.getNumberOfPassengers());
         mainPage.searchForFlights();
-        Assert.assertTrue(mainPage.wait.until(ExpectedConditions.urlToBe(searchResultsURL)));
+        Assert.assertTrue(mainPage.wait.until(ExpectedConditions.urlToBe(data.getSearchResultsURL())));
     }
 
     @Test
@@ -67,8 +47,11 @@ public class FlightBookingTest {
     @Test
     public void FlightBookingTest_03_shouldFillInPaymentForm() {
         paymentFormPage.chooseGuestBooking();
-        paymentFormPage.enterTravellerInfo(title, name, surname, email, phone, birthday, idCardNumber, idCardExpirationDate, Nationality);
-        paymentFormPage.enterPaymentInformation(cardType, cardNumber, cardExpirationMonth, cardExpirationYear, cvvNumber);
+        paymentFormPage.enterTravellerInfo(data.getTitle(), data.getName(), data.getSurname(),
+                data.getEmail(), data.getPhone(), data.getBirthday(),
+                data.getIdCardNumber(), data.getIdCardExpirationDate(), data.getNationality());
+        paymentFormPage.enterPaymentInformation(data.getCardType(), data.getCardNumber(),
+                data.getCardExpirationMonth(), data.getCardExpirationYear(), data.getCvvNumber());
         paymentFormPage.confirmBooking();
         // Assert.assertTrue(paymentFormPage.wait.until(ExpectedConditions.urlToBe("https://www.phptravels.net/thflights/checkout")));
     }
