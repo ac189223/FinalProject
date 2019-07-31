@@ -6,11 +6,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.phpTravels.MainPage;
+import pages.phpTravels.SearchResultsPage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FlightBookingTest {
     private static WebDriver driver;
     private MainPage mainPage = new MainPage(driver);
+    private SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
     private String departureAirport = "WAW";
     private String arrivalAirport = "JFK";
     private String departureDate = "2019-10-10";
@@ -42,7 +44,8 @@ public class FlightBookingTest {
 
     @Test
     public void FlightBookingTest_02_shouldChooseFlight() {
-
+        searchResultsPage.chooseFlight();
+        Assert.assertTrue(searchResultsPage.wait.until(ExpectedConditions.urlToBe("https://www.phptravels.net/thflights/checkout")));
     }
 
 
