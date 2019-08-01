@@ -73,7 +73,7 @@ public class FlightBookingTest {
     }
 
     @AfterClass
-    public static void tearDown() throws Exception {
+    public static void tearDown() {
         driver.quit();
     }
 }
