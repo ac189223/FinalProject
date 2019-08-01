@@ -11,6 +11,7 @@ Feature: codersGuru user creation
     And user accepts regulations
     And user clicks button for registration
     Then opens page with confirmation
+    And user <name> is logged in
     And close codersGuru page
 
     Examples:

@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.codersGuru.ConfirmationPage;
 import pages.codersGuru.MainPage;
 import pages.codersGuru.RegisterPage;
+import pages.codersGuru.SettingsPage;
 
 public class UserRegistration {
     private WebDriver driver;
@@ -77,6 +78,15 @@ public class UserRegistration {
     public void checkConfirmationUrl() {
         ConfirmationPage confirmationPage = new ConfirmationPage(driver);
         Assert.assertTrue(confirmationPage.wait.until(ExpectedConditions.urlToBe("https://tester.codersguru.pl/register/confirmed")));
+    }
+
+    @And("^user (.*) is logged in$")
+    public void userNameVisible(String name) {
+        ConfirmationPage confirmationPage = new ConfirmationPage(driver);
+        Assert.assertTrue(confirmationPage.userNameIsVisible(name));
+        confirmationPage.preparToLogOut();
+        SettingsPage settingsPage = new SettingsPage(driver);
+        settingsPage.logOutUser();
     }
 
     @And("^close codersGuru page$")
