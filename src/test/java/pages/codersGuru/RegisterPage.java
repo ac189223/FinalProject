@@ -76,10 +76,12 @@ public class RegisterPage extends PageObject{
 
     public void confirmRegulations() {
         WebElement confirmationCheckbox = confirmationCheckboxParent.findElement(By.xpath("./input"));
+        wait.until(ExpectedConditions.elementToBeClickable(confirmationCheckbox));
         confirmationCheckbox.click();
     }
 
     public void createAccount() {
+        wait.until(ExpectedConditions.elementToBeClickable(registerButton));
         registerButton.click();
     }
 }
