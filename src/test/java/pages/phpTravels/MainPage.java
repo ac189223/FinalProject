@@ -2,12 +2,14 @@ package pages.phpTravels;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainPage extends PageObject {
@@ -19,37 +21,37 @@ public class MainPage extends PageObject {
     }
 
     @FindBy(className = "fa-plane")
-    WebElement flightsSelectorElement;
+    private WebElement flightsSelectorElement;
 
     @FindBy(id = "thflights")
-    WebElement flightsSelectPanel;
+    private WebElement flightsSelectPanel;
 
     @FindBy(id = "s2id_origin")
-    WebElement locationFromClickable;
+    private WebElement locationFromClickable;
 
     @FindBy(id = "select2-drop")
-    WebElement locationSelectParent;
+    private WebElement locationSelectParent;
 
     @FindBy(id = "s2id_destination")
-    WebElement locationToClickable;
+    private WebElement locationToClickable;
 
     @FindBy(name = "departure")
-    WebElement departureDateElement;
+    private WebElement departureDateElement;
 
     @FindBy(name = "arrival")
-    WebElement arrivalDateElement;
+    private WebElement arrivalDateElement;
 
     @FindBy(id = "round")
-    WebElement roundTripElement;
+    private WebElement roundTripElement;
 
     @FindBy(name = "totalManualPassenger")
-    WebElement numberOfPassengersElement;
+    private WebElement numberOfPassengersElement;
 
     @FindBy(id = "madult")
-    WebElement numberOfAdultsElement;
+    private WebElement numberOfAdultsElement;
 
     @FindBy(id = "sumManualPassenger")
-    WebElement numberOfPassengersConfirmationButton;
+    private WebElement numberOfPassengersConfirmationButton;
 
     public void changeToFlightsBooking() {
         wait.until(ExpectedConditions.elementToBeClickable(flightsSelectorElement));
@@ -69,13 +71,13 @@ public class MainPage extends PageObject {
         enterNumberOfPassengers(numberOfPassengers);
     }
 
-    public void enterDepartureAirport(String airportName) {
+    private void enterDepartureAirport(String airportName) {
         wait.until(ExpectedConditions.elementToBeClickable(locationFromClickable));
         locationFromClickable.click();
         searchForAirport(airportName);
     }
 
-    public void enterArrivalAirport(String airportName) {
+    private void enterArrivalAirport(String airportName) {
         wait.until(ExpectedConditions.elementToBeClickable(locationToClickable));
         locationToClickable.click();
         searchForAirport(airportName);
@@ -90,11 +92,11 @@ public class MainPage extends PageObject {
         availableAirportsList.get(0).click();
     }
 
-    public void enterDepartureTime(String departureTime) {
+    private void enterDepartureTime(String departureTime) {
         enterTime(departureDateElement, departureTime);
     }
 
-    public void enterArrivalTime(String arrivalTime) {
+    private void enterArrivalTime(String arrivalTime) {
         enterTime(arrivalDateElement, arrivalTime);
     }
 
@@ -106,7 +108,7 @@ public class MainPage extends PageObject {
         dateElement.click();
     }
 
-    public void enterNumberOfPassengers(int numberOfPassengers) {
+    private void enterNumberOfPassengers(int numberOfPassengers) {
         Assert.assertTrue(numberOfPassengers < 4);
         wait.until(ExpectedConditions.elementToBeClickable(numberOfPassengersElement));
         numberOfPassengersElement.click();
@@ -115,6 +117,14 @@ public class MainPage extends PageObject {
         numberOfAdultsList.get(numberOfPassengers - 1).click();
         wait.until(ExpectedConditions.elementToBeClickable(numberOfPassengersConfirmationButton));
         numberOfPassengersConfirmationButton.click();
+    }
+
+    public void captureSearchDetailsScreenShot() throws IOException {
+        WebElement elementToCapture = driver.findElement(By.cssSelector("div.col-md-12"));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView();", elementToCapture);
+        String fileName = "01_flightsSearchDetails";
+        captureElementScreenshot(elementToCapture, fileName);
     }
 
     public void searchForFlights(){

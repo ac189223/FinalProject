@@ -15,8 +15,7 @@ public class SearchResultsPage extends PageObject {
     }
 
     @FindBy(className = "progress-btn")
-    WebElement bookNowButton;
-
+    private WebElement bookNowButton;
 
     public void chooseFlight() {
         wait.until(ExpectedConditions.elementToBeClickable(bookNowButton));
